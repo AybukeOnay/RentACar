@@ -15,7 +15,6 @@ import com.kodlamaio.rentACar.business.abstracts.BrandService;
 import com.kodlamaio.rentACar.business.requests.brands.CreateBrandRequest;
 import com.kodlamaio.rentACar.business.requests.brands.UpdateBrandRequest;
 import com.kodlamaio.rentACar.business.responses.brands.BrandResponse;
-import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -25,7 +24,6 @@ public class BrandsController {
 	private BrandService brandService;
 	
 	public BrandsController(BrandService brandService) {
-		super();
 		this.brandService = brandService;
 	}
 

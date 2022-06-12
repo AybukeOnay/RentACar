@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RentalResponse {
+	
 	private int id;
 	private int totalDays;
 	private double totalPrice;

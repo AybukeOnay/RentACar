@@ -26,8 +26,8 @@ public class AdditionalItem {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="additionalDefinition")
-	private String additionalDefinition;
+	@Column(name="additionalItemName")
+	private String additionalItemName;
 	
 	@Column(name="dailyPrice")
 	private double dailyPrice;

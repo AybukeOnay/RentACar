@@ -29,8 +29,8 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@Column(name="nationaly_id")
-	private String nationalyId;
+	@Column(name="nationalty_id")
+	private String nationaltyId;
 	
 	@Column(name="email")
 	private String email;

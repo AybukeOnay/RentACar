@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.rentACar.business.abstracts.UserService;
 import com.kodlamaio.rentACar.business.requests.users.CreateUserRequest;
+import com.kodlamaio.rentACar.business.requests.users.UpdateUserRequest;
 import com.kodlamaio.rentACar.business.responses.users.UserResponse;
 import com.kodlamaio.rentACar.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
@@ -36,5 +37,20 @@ public class UserManager implements UserService {
 		List<User> users=userRepository.findAll();
 		return users.stream().map(user -> this.modelMapperService.forResponse().map(user, UserResponse.class)).collect(Collectors.toList());
 		
+	}
+
+	@Override
+	public Result update(UpdateUserRequest updateUserRequest) {
+		
+		User userToUpdate=modelMapperService.forRequest().map(updateUserRequest, User.class);	
+		userRepository.save(userToUpdate);
+		return new SuccessResult();
+
+	}
+
+	@Override
+	public Result delete(int id) {
+		userRepository.deleteById(id);
+		return new SuccessResult();
 	}
 }

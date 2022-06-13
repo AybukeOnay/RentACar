@@ -43,11 +43,9 @@ public class MaintenanceManager implements MaintenanceService {
 		//Maintenance maintenance = new Maintenance();
 		maintenance.setDateSent(currentDate);
 		Car car = carService.getById(createMaintenanceRequest.getCarId());
-		if(car.getState()!=1) {
-			//hata mesajı üret
-		}
+		
 		if (maintenance.getDateSent()!=null && maintenance.getDateReturned() != null){
-			if (maintenance.getDateSent().compareTo(maintenance.getDateSent()) > 0) {
+			if (maintenance.getDateSent().compareTo(maintenance.getDateReturned()) > 0) {
 				//hata mesajı üret
 			}
 		}
@@ -69,6 +67,10 @@ public class MaintenanceManager implements MaintenanceService {
 		 * car=carService.getById(updateMaintenanceRequest.getCarId());
 		 * updateMaintenance.setCar(car); if(car.getState()==2) car.setState(1);
 		 */
+		
+//		if(car.getState()!=1) {
+			//hata mesajı üret
+//		}
 
 		Optional<Maintenance> maintenance = maintenanceRepository.findById(id);
 		if (maintenance.isPresent()) {

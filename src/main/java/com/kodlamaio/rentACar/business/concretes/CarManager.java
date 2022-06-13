@@ -40,8 +40,6 @@ public class CarManager implements CarService {
 
 	}
 	
-	
-
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
 		

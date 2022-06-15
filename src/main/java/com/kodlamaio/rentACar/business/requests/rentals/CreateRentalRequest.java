@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRentalRequest {
+	
 	private LocalDate pickUpDate;
-	private LocalDate returnDate;
-	private int totalDays;
-	private double totalPrice;
+	private LocalDate returnDate;	
 	private int carId;
 	private int pickUpCityId;
 	private int returnCityId;
+	private int userId;
 }

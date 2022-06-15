@@ -54,4 +54,8 @@ public class Rental {
     
     @OneToMany(mappedBy = "rental")
 	List<Additional> additionals;
+    
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }

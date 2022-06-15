@@ -18,84 +18,57 @@ import com.kodlamaio.rentACar.core.utilities.results.ErrorResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CarRepository;
-import com.kodlamaio.rentACar.entities.concretes.Brand;
 import com.kodlamaio.rentACar.entities.concretes.Car;
-import com.kodlamaio.rentACar.entities.concretes.Color;
 
 @Service
 public class CarManager implements CarService {
+	@Autowired
 	private CarRepository carRepository;
-	private ColorService colorService;
-	private BrandService brandService;
-	private ModelMapperService modelMapperService;
-	
 
 	@Autowired
-	public CarManager(CarRepository carRepository,ModelMapperService modelMapperService) {
-		
-		this.carRepository = carRepository;
-		this.colorService=colorService;
-		this.brandService=brandService;
-		this.modelMapperService=modelMapperService;
-
-	}
+	private ColorService colorService;
 	
+	@Autowired
+	private BrandService brandService;
+	
+	@Autowired
+	private ModelMapperService modelMapperService;
+
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		
-		//Color color=colorService.getColorById(createCarRequest.getColorId());
-		//Brand brand=brandService.getBrandById(createCarRequest.getBrandId());
-		//if(color==null || brand==null)
-		//	return new ErrorResult("CAR.ERROR");
-		Car car=new Car();
-		//Car car=this.modelMapperService.forRequest().map(createCarRequest, Car.class);
-		car.setDescription(createCarRequest.getDescription());
-		car.setDailyPrice(createCarRequest.getDailyPrice());
-		car.setKilometer(createCarRequest.getKilometer());
-		car.setLicensePlate(createCarRequest.getLicensePlate());
-		car.setState(createCarRequest.getState());
-		
-		Brand brand=new Brand();
-		brand.setId(createCarRequest.getBrandId());
-		
-		Color color=new Color();
-		color.setId(createCarRequest.getColorId());		
-		
-		car.setBrand(brand);
-		car.setColor(color);
-		carRepository.save(car);		
-		
-		List<Car> existsCars=carRepository.getByBrandId(car.getBrand().getId());
-		if(existsCars.size()<5) {
+		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
+		car.setState(1);
+		if (maxBrand(createCarRequest.getBrandId())) {
 			this.carRepository.save(car);
 			return new SuccessResult("CAR.ADDED");
+		} else {
+			return new ErrorResult("NOT.ADDED");
 		}
-		
-		    return new ErrorResult("CAR.ERROR");
+
 	}
 
 	@Override
 	public List<CarResponse> getAll() {
-		
-		List<Car> cars=carRepository.findAll();
-		return cars.stream().map(car -> this.modelMapperService.forResponse().map(car, CarResponse.class)).collect(Collectors.toList());
-		//return cars.stream().map(c->new CarResponse(c)).collect(Collectors.toList());
+
+		List<Car> cars = carRepository.findAll();
+		return cars.stream().map(car -> this.modelMapperService.forResponse().map(car, CarResponse.class))
+				.collect(Collectors.toList());
+		// return cars.stream().map(c->new CarResponse(c)).collect(Collectors.toList());
 	}
 
 	@Override
 	public void deleteById(int id) {
 		carRepository.deleteById(id);
-		
+
 	}
 
 	@Override
 	public void update(UpdateCarRequest updateCarRequest, int id) {
-		
-		Optional<Car> currentCar=carRepository.findById(id);
+
+		Optional<Car> currentCar = carRepository.findById(id);
 		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
-		if(currentCar.isPresent())
-		{
-			Car foundCar=currentCar.get();
+		if (currentCar.isPresent()) {
+			Car foundCar = currentCar.get();
 			foundCar.setDailyPrice(car.getDailyPrice());
 			foundCar.setDescription(car.getDescription());
 			foundCar.setKilometer(car.getKilometer());
@@ -103,14 +76,21 @@ public class CarManager implements CarService {
 			foundCar.setState(car.getState());
 			carRepository.save(foundCar);
 		}
-		
+
 	}
-	
-	public Car getById(int id)
-	{
+
+	public Car getById(int id) {
 		return carRepository.findById(id).get();
 	}
-	
-	
+
+	private boolean maxBrand(int brandId) {
+		boolean exist = false;
+		if (this.carRepository.getByBrandId(brandId).size() < 5) {
+			exist = true;
+		} else {
+			System.out.println("CAR.EXIST");
+		}
+		return exist;
+	}
 
 }

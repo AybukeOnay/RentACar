@@ -29,9 +29,6 @@ public class City {
 	@Column(name= "cityId")
 	private int cityId;
 	
-	@Column(name= "plateCode")
-	private String plateCode;
-	
 	@Column(name= "cityName")
 	private String cityName;
 	

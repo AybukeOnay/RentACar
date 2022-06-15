@@ -25,27 +25,27 @@ import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 public class UsersController {
 
 	private UserService userService;
-	
+
 	public UsersController(UserService userService) {
 		this.userService = userService;
 	}
 
 	@PostMapping("/add")
 	public Result add(@RequestBody @Valid CreateUserRequest createUserRequest) {
-		userService.add(createUserRequest);
-		return new SuccessResult();
+		return userService.add(createUserRequest);
+
 	}
-	
+
 	@GetMapping("/getall")
-	public List<UserResponse> getAll(){
+	public List<UserResponse> getAll() {
 		return userService.getAll();
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public Result delete(@PathVariable int id) {
 		return userService.delete(id);
 	}
-	
+
 	@PutMapping("/update")
 	public Result update(@RequestBody @Valid UpdateUserRequest updateUserRequest) {
 		return userService.update(updateUserRequest);

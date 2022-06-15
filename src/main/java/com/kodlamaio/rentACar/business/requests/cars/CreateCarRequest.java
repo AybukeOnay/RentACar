@@ -14,10 +14,10 @@ public class CreateCarRequest {
 	private String description;
 	private double dailyPrice;
 	private String licensePlate;
-	private int kilometer;
-	private int state;
+	private int kilometer;	
 	private int brandId;
 	private int colorId;
+	private int minFindex;
 	
 
 }

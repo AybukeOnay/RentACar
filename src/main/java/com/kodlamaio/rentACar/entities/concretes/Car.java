@@ -45,6 +45,9 @@ public class Car {
 	@Column(name="state")
 	private int state;
 	
+	@Column(name="min_findex")
+	private int minFindex;
+	
 	@ManyToOne
 	@JoinColumn(name="brand_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)

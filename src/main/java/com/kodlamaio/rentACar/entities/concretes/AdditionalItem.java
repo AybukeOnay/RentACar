@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "additionalItems")
+@Table(name = "additional_items")
 public class AdditionalItem {
 	
 	@Id
@@ -26,10 +26,10 @@ public class AdditionalItem {
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="additionalItemName")
+	@Column(name="additional_item_name")
 	private String additionalItemName;
 	
-	@Column(name="dailyPrice")
+	@Column(name="daily_price")
 	private double dailyPrice;
 	
 	@OneToMany(mappedBy = "additionalItem")

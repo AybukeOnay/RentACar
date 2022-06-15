@@ -9,5 +9,6 @@ import com.kodlamaio.rentACar.entities.concretes.Car;
 public interface CarRepository extends JpaRepository<Car, Integer>{
 	
 	List<Car> getByBrandId(int brandId);
+	
 
 }

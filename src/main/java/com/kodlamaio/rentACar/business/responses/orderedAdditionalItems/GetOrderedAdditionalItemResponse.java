@@ -1,0 +1,16 @@
+package com.kodlamaio.rentACar.business.responses.orderedAdditionalItems;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GetOrderedAdditionalItemResponse {
+
+	private int totalDays;
+	private double totalPrice;
+	private int additionalItemId;
+	private int rentalId;
+}

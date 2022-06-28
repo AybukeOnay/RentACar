@@ -1,4 +1,4 @@
-package com.kodlamaio.rentACar.business.requests.brands;
+package com.kodlamaio.rentACar.business.requests.corporates;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateBrandRequest {
-	
-	private int id;
-	private String name;
+public class DeleteCorporateRequest {
+
+	private int corporateCustomerId;
 }

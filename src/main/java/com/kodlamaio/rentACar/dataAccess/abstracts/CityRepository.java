@@ -6,4 +6,5 @@ import com.kodlamaio.rentACar.entities.concretes.City;
 
 public interface CityRepository extends JpaRepository<City, Integer>{
 
+	City findByName(String name);
 }

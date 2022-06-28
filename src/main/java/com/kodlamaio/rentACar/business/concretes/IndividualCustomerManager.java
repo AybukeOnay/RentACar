@@ -1,6 +1,5 @@
 package com.kodlamaio.rentACar.business.concretes;
 
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +39,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 
 		checkUserNationalityFromRepository(createIndividualCustomerRequest.getNationality());
-		checkIfUserExistsByNationalityFromMernis(createIndividualCustomerRequest);
+		//checkIfUserExistsByNationalityFromMernis(createIndividualCustomerRequest);
 		checkUserEmail(createIndividualCustomerRequest.getEmail());
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest().map(createIndividualCustomerRequest,
 				IndividualCustomer.class);
@@ -90,13 +89,13 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		return new SuccessDataResult<GetIndividualCustomerResponse>(response);
 	}
 
-	private void checkIfUserExistsByNationalityFromMernis(CreateIndividualCustomerRequest createIndividualRequest)
-			throws NumberFormatException, RemoteException {
-
-		if (!userCheckService.checkIfRealPerson(createIndividualRequest)) {
-			throw new BusinessException("USER.IS.NOT.EXISTS.MERNIS");
-		}
-	}
+//	private void checkIfUserExistsByNationalityFromMernis(CreateIndividualCustomerRequest createIndividualRequest)
+//			throws NumberFormatException, RemoteException {
+//
+//		if (!userCheckService.checkIfRealPerson(createIndividualRequest)) {
+//			throw new BusinessException("USER.IS.NOT.EXISTS.MERNIS");
+//		}
+//	}
 
 	private void checkUserNationalityFromRepository(String nationality) {
 

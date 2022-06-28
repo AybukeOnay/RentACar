@@ -14,13 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name="brands")
 public class Brand {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -29,7 +29,6 @@ public class Brand {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy="brand")
+	@OneToMany(mappedBy = "brand")
 	List<Car> cars;
-	
 }

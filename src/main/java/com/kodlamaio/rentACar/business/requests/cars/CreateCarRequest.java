@@ -1,23 +1,24 @@
 package com.kodlamaio.rentACar.business.requests.cars;
 
+import javax.validation.constraints.Min;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class CreateCarRequest {
-	
-	private String description;
-	private double dailyPrice;
-	private String licensePlate;
-	private int kilometer;	
+
 	private int brandId;
 	private int colorId;
-	private int minFindex;
+	private int cityId;
 	
+	@Min(50)
+	private double dailyPrice;
+	private String description;
+	private int kilometer;
+	private String numberPlate;
 
 }

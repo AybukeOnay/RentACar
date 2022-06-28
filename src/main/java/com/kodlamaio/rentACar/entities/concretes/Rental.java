@@ -17,16 +17,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "rentals")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="rentals")
 public class Rental {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name="id")
 	private int id;
+	
+	@Column(name="pick_up_date")
+	private LocalDate pickUpDate;
+	
+	@Column(name="return_date")
+	private LocalDate returnDate;
 	
 	@Column(name="total_days")
 	private int totalDays;
@@ -34,28 +41,21 @@ public class Rental {
 	@Column(name="total_price")
 	private double totalPrice;
 	
-	@Column(name = "pick_up_date")
-	private LocalDate pickUpDate;
-	
-	@Column(name = "return_date")
-	private LocalDate returnDate;
-	
 	@ManyToOne
-	@JoinColumn(name= "car_id")
+	@JoinColumn(name="car_id")
 	private Car car;
 	
+	@OneToMany(mappedBy ="rental")
+	List<Invoice> invoices;
+	
 	@ManyToOne
-    @JoinColumn(name = "pick_up_city_id", referencedColumnName = "cityId")
-    private City pickUpCity;
-
-    @ManyToOne
-    @JoinColumn(name = "return_city_id", referencedColumnName = "cityId")
-    private City returnCity;
-    
-    @OneToMany(mappedBy = "rental")
-	List<Additional> additionals;
-    
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+	@JoinColumn(name="pick_up_city_id",referencedColumnName = "id")
+	private City pickUpCityId;
+	
+	@ManyToOne
+	@JoinColumn(name="return_city_id",referencedColumnName = "id")
+	private City returnCityId;
+	
+	
+	
 }

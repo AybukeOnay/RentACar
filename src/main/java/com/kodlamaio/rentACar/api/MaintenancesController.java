@@ -1,50 +1,56 @@
 package com.kodlamaio.rentACar.api;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kodlamaio.rentACar.business.abstracts.MaintenanceService;
-import com.kodlamaio.rentACar.business.requests.maintenance.CreateMaintenanceRequest;
-import com.kodlamaio.rentACar.business.requests.maintenance.UpdateMaintenanceRequest;
+import com.kodlamaio.rentACar.business.requests.maintenances.CreateMaintenanceRequest;
+import com.kodlamaio.rentACar.business.requests.maintenances.DeleteMaintenanceRequest;
+import com.kodlamaio.rentACar.business.requests.maintenances.UpdateMaintenanceRequest;
+import com.kodlamaio.rentACar.business.responses.maintenances.GetAllMaintenancesResponses;
+import com.kodlamaio.rentACar.business.responses.maintenances.GetMaintenanceResponse;
+import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
-import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 
 @RestController
-@RequestMapping("/api/maintenance")
+@RequestMapping("/api/maintenances")
 public class MaintenancesController {
 	
-	
-	MaintenanceService maintenanceService;
-	
-	public MaintenancesController(MaintenanceService maintenanceService)
-	{
-		this.maintenanceService=maintenanceService;
+	private MaintenanceService maintenanceService;
+
+	public MaintenancesController(MaintenanceService maintenanceService) {
+		this.maintenanceService = maintenanceService;
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateMaintenanceRequest createMaintenanceRequest, @RequestParam int carId)
-	{
-		
-		maintenanceService.add(createMaintenanceRequest, carId);
-		return new SuccessResult("MAINTENANCE.ADDED");
+	public Result add(@RequestBody CreateMaintenanceRequest createMaintenanceRequest) {
+		return maintenanceService.add(createMaintenanceRequest);
 	}
 	
-	@DeleteMapping("/{id}")
-	public Result delete(@PathVariable int id)
-	{
-		return new SuccessResult();
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteMaintenanceRequest deleteMaintenanceRequest) {
+		return maintenanceService.delete(deleteMaintenanceRequest);
 	}
 	
-	@PutMapping("/{id}")
-	public Result update(@PathVariable int id,@RequestBody UpdateMaintenanceRequest updateMaintenanceRequest)
-	{
-		maintenanceService.update(id, updateMaintenanceRequest);
-		return new SuccessResult();
+	@PostMapping("/update")
+	public Result update(@RequestBody UpdateMaintenanceRequest updateMaintenanceRequest) {
+		return maintenanceService.update(updateMaintenanceRequest);
 	}
+	
+	@GetMapping("/getById")
+	public DataResult<GetMaintenanceResponse> getById(@RequestParam int id){
+		return this.maintenanceService.getById(id);
+	}
+	
+	@GetMapping("/getAll")
+	public DataResult<List<GetAllMaintenancesResponses>> getAll(){
+		return this.maintenanceService.getAll();
+	}
+	
 }

@@ -14,12 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name="colors")
 public class Color {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -28,9 +29,6 @@ public class Color {
 	@Column(name="name")
 	private String name;
 	
-	@OneToMany(mappedBy="color")
-	private List<Car> cars;
-	
-	
-
+	@OneToMany(mappedBy = "color")
+	List<Car> cars;
 }

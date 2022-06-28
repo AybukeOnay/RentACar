@@ -1,5 +1,7 @@
 package com.kodlamaio.rentACar.business.requests.cars;
 
+import javax.validation.constraints.Min;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCarRequest {
-	
+
 	private int id;
-	private String description;
-	private double dailyPrice;
-	private String licensePlate;
-	private int kilometer;
-	private int state;
 	private int brandId;
 	private int colorId;
-	private int minFindex;
-
+	private int cityId;
+	
+	@Min(50)
+	private double dailyPrice;
+	private String description;
+	private int kilometer;
+	private String numberPlate;
 }

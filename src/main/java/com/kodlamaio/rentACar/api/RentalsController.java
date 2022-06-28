@@ -6,18 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kodlamaio.rentACar.business.abstracts.RentalService;
 import com.kodlamaio.rentACar.business.requests.rentals.CreateRentalRequest;
-import com.kodlamaio.rentACar.business.responses.rentals.RentalResponse;
+import com.kodlamaio.rentACar.business.requests.rentals.DeleteRentalRequest;
+import com.kodlamaio.rentACar.business.requests.rentals.UpdateRentalRequest;
+import com.kodlamaio.rentACar.business.responses.rentals.GetAllRentalsResponses;
+import com.kodlamaio.rentACar.business.responses.rentals.GetRentalResponse;
+import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
-import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalsController {
-	
+
 	private RentalService rentalService;
 
 	public RentalsController(RentalService rentalService) {
@@ -25,15 +29,27 @@ public class RentalsController {
 	}
 	
 	@PostMapping("/add")
-	public Result add(@RequestBody CreateRentalRequest createRentalRequest)
-	{
-		rentalService.add(createRentalRequest);
-		return new SuccessResult();
+	public Result add(@RequestBody CreateRentalRequest createRentalRequest) {
+		return rentalService.add(createRentalRequest);
 	}
 	
-	@GetMapping("/getall")
-	public List<RentalResponse> getAll(){
-		return rentalService.getAll();
-		}
-
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteRentalRequest deleteRentalRequest) {
+		return rentalService.delete(deleteRentalRequest);
+	}
+	
+	@PostMapping("/update")
+	public Result update(@RequestBody UpdateRentalRequest updateRentalRequest) {
+		return rentalService.update(updateRentalRequest);
+	}
+	
+	@GetMapping("/getById")
+	public DataResult<GetRentalResponse> getById(@RequestParam int id){
+		return this.rentalService.getById(id);
+	}
+	
+	@GetMapping("/getAll")
+	public DataResult<List<GetAllRentalsResponses>> getAll(){
+		return this.rentalService.getAll();
+	}
 }

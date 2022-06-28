@@ -1,7 +1,6 @@
 package com.kodlamaio.rentACar.business.concretes;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.rentACar.business.abstracts.BrandService;
 import com.kodlamaio.rentACar.business.requests.brands.CreateBrandRequest;
+import com.kodlamaio.rentACar.business.requests.brands.DeleteBrandRequest;
 import com.kodlamaio.rentACar.business.requests.brands.UpdateBrandRequest;
-import com.kodlamaio.rentACar.business.responses.brands.BrandResponse;
+import com.kodlamaio.rentACar.business.responses.brands.GetAllBrandsResponses;
+import com.kodlamaio.rentACar.business.responses.brands.GetBrandResponse;
+import com.kodlamaio.rentACar.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.rentACar.core.utilities.mapping.ModelMapperService;
+import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
+import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.BrandRepository;
 import com.kodlamaio.rentACar.entities.concretes.Brand;
@@ -31,54 +35,49 @@ public class BrandManager implements BrandService {
 
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
-
-		// mapping
-		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class); //-->modelmapperService'den request işlemi yapar
-																								//createBrand işlemi yapar,dönüş tipi olarak Brand classını verir.
-
+		checkIfBrandExistName(createBrandRequest.getName());
+		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		this.brandRepository.save(brand);
-
 		return new SuccessResult("BRAND.ADDED");
-
 	}
 
 	@Override
-	public List<BrandResponse> getAll() {
-		// mapping
-		List<Brand> brands = brandRepository.findAll();
-		return brands.stream().map(brand -> this.modelMapperService.forResponse().map(brand, BrandResponse.class)).collect(Collectors.toList());
-				//BrandResponse(b)).collect(Collectors.toList());
-
-	}
-
-	@Override
-	public Result deleteById(int id) {
-		
-		brandRepository.deleteById(id);
+	public Result delete(DeleteBrandRequest deleteBrandRequest) {
+		brandRepository.deleteById(deleteBrandRequest.getId());
 		return new SuccessResult("BRAND.DELETED");
-
 	}
 
 	@Override
-	public Result update(UpdateBrandRequest updateBrandRequest, int id) {
-		// mapping
+	public Result update(UpdateBrandRequest updateBrandRequest) {
+		checkIfBrandExistName(updateBrandRequest.getName());
 		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
-		//brand.setName(updateBrandRequest.getName());
-		Optional<Brand> currentBrand = brandRepository.findById(id);
-		if (currentBrand.isPresent()) {
-			Brand foundBrand = currentBrand.get();
-			foundBrand.setName(brand.getName());
-			brandRepository.save(foundBrand);
-
-		}
-		return new SuccessResult("BRAND.UPDATED");
-
+		this.brandRepository.save(brand);
+		return new SuccessResult("BRAND.UPTATED");
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
-	public Brand getBrandById(int id) {
-		return brandRepository.getById(id);
+	public DataResult<List<GetAllBrandsResponses>> getAll() {
+		List<Brand> brands = this.brandRepository.findAll();
+		List<GetAllBrandsResponses> response = brands.stream()
+				.map(brand -> this.modelMapperService.forResponse().map(brand, GetAllBrandsResponses.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllBrandsResponses>>(response);
+	}
+
+	@Override
+	public DataResult<GetBrandResponse> getById(int id) {
+		Brand brand = this.brandRepository.findById(id).get();
+		GetBrandResponse response = this.modelMapperService.forResponse().map(brand, GetBrandResponse.class);
+		return new SuccessDataResult<GetBrandResponse>(response);
+	}
+	
+	private void checkIfBrandExistName(String name) {
+
+		Brand currentBrand = this.brandRepository.findByName(name);
+
+		if (currentBrand != null) {
+			throw new BusinessException("BRAND.EXIST");
+		}
 	}
 
 }

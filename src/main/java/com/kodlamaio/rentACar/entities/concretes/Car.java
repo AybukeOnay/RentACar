@@ -12,19 +12,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="cars")
 public class Car {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -33,11 +31,11 @@ public class Car {
 	@Column(name="description")
 	private String description;
 	
-	@Column(name="dailyPrice")
-	private double dailyPrice;
+	@Column(name="number_plate")
+	private String numberPlate;
 	
-	@Column(name="license_plate")
-	private String licensePlate;
+	@Column(name="daily_price")
+	private double dailyPrice;
 	
 	@Column(name="kilometer")
 	private int kilometer;
@@ -45,28 +43,21 @@ public class Car {
 	@Column(name="state")
 	private int state;
 	
-	@Column(name="min_findex")
-	private int minFindex;
+	@Column(name ="min_findex_score")
+	private int minFindexScore;
 	
 	@ManyToOne
 	@JoinColumn(name="brand_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Brand brand;
 	
 	@ManyToOne
 	@JoinColumn(name="color_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Color color;
 	
-	@OneToMany(mappedBy = "car")
-	private List<Maintenance> maintenances;
+	@ManyToOne
+	@JoinColumn(name="city_id")
+	private City city;
 	
 	@OneToMany(mappedBy = "car")
-	private List<Rental> rentals;
-	
-
-	
-	
-	
-
+	List<Maintenance> maintenances;
 }

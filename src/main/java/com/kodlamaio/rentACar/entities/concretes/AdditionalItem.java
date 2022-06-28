@@ -18,20 +18,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "additional_items")
+@Table(name="additional_items")
 public class AdditionalItem {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
-	@Column(name="additional_item_name")
-	private String additionalItemName;
+	@Column(name="name")
+	private String name;
 	
-	@Column(name="daily_price")
-	private double dailyPrice;
+	@Column(name="price")
+	private double price;
 	
 	@OneToMany(mappedBy = "additionalItem")
-	private List<Additional> additionals;
+	List<OrderedAdditionalItem> orderedAdditionalItems;
 }

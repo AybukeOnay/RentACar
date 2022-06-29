@@ -9,6 +9,7 @@ import com.kodlamaio.rentACar.business.responses.cities.GetAllCitiesResponses;
 import com.kodlamaio.rentACar.business.responses.cities.GetCityResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
+import com.kodlamaio.rentACar.entities.concretes.City;
 
 public interface CityService {
 
@@ -17,4 +18,5 @@ public interface CityService {
 	Result update(UpdateCityRequest updateCityRequest);
 	DataResult<List<GetAllCitiesResponses>> getAll();
 	DataResult<GetCityResponse> getById(int id);
+	City getCityById(int id);
 }

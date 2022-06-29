@@ -73,24 +73,24 @@ public class AddressManager implements AddressService {
 		return new SuccessDataResult<GetAddressResponse>(getAddressResponse, "GET.ADDRESS");
 	}
 
-	@Override
-	public DataResult<List<GetAllAddressesResponse>> getAllBillAddress(int userId, int addressType) {
-
-		List<Address> addresses = this.addressRepository.getByUserIdAndAddressType(userId, addressType);
-		List<GetAllAddressesResponse> response = addresses.stream()
-				.map(address -> this.modelMapperService.forResponse().map(address, GetAllAddressesResponse.class))
-				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllAddressesResponse>>(response);
-	}
-
-	@Override
-	public DataResult<List<GetAllAddressesResponse>> getAllContactAddress(int userId, int addressType) {
-
-		List<Address> addresses = this.addressRepository.getByUserIdAndAddressType(userId, addressType);
-		List<GetAllAddressesResponse> response = addresses.stream()
-				.map(address -> this.modelMapperService.forResponse().map(address, GetAllAddressesResponse.class))
-				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllAddressesResponse>>(response);
-	}
+//	@Override
+//	public DataResult<List<GetAllAddressesResponse>> getAllBillAddress(int userId, int addressType) {
+//
+//		List<Address> addresses = this.addressRepository.getByUserIdAndAddressType(userId, addressType);
+//		List<GetAllAddressesResponse> response = addresses.stream()
+//				.map(address -> this.modelMapperService.forResponse().map(address, GetAllAddressesResponse.class))
+//				.collect(Collectors.toList());
+//		return new SuccessDataResult<List<GetAllAddressesResponse>>(response);
+//	}
+//
+//	@Override
+//	public DataResult<List<GetAllAddressesResponse>> getAllContactAddress(int userId, int addressType) {
+//
+//		List<Address> addresses = this.addressRepository.getByUserIdAndAddressType(userId, addressType);
+//		List<GetAllAddressesResponse> response = addresses.stream()
+//				.map(address -> this.modelMapperService.forResponse().map(address, GetAllAddressesResponse.class))
+//				.collect(Collectors.toList());
+//		return new SuccessDataResult<List<GetAllAddressesResponse>>(response);
+//	}
 
 }

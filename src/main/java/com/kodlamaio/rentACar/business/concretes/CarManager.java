@@ -5,7 +5,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.rentACar.business.abstracts.BrandService;
 import com.kodlamaio.rentACar.business.abstracts.CarService;
+import com.kodlamaio.rentACar.business.abstracts.CityService;
+import com.kodlamaio.rentACar.business.abstracts.ColorService;
 import com.kodlamaio.rentACar.business.requests.cars.CreateCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.DeleteCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.UpdateCarRequest;
@@ -17,10 +20,7 @@ import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
-import com.kodlamaio.rentACar.dataAccess.abstracts.BrandRepository;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CarRepository;
-import com.kodlamaio.rentACar.dataAccess.abstracts.CityRepository;
-import com.kodlamaio.rentACar.dataAccess.abstracts.ColorRepository;
 import com.kodlamaio.rentACar.entities.concretes.Brand;
 import com.kodlamaio.rentACar.entities.concretes.Car;
 import com.kodlamaio.rentACar.entities.concretes.City;
@@ -31,17 +31,17 @@ public class CarManager implements CarService {
 
 	private CarRepository carRepository;
 	private ModelMapperService modelMapperService;
-	private CityRepository cityRepository;
-	private BrandRepository brandRepository;
-	private ColorRepository colorRepository;
-	
-	public CarManager(CarRepository carRepository, ModelMapperService modelMapperService, CityRepository cityRepository,
-			BrandRepository brandRepository, ColorRepository colorRepository) {
+	private CityService cityService;
+	private BrandService brandService;
+	private ColorService colorService;
+
+	public CarManager(CarRepository carRepository, ModelMapperService modelMapperService, CityService cityService,
+			BrandService brandService, ColorService colorService) {
 		this.carRepository = carRepository;
 		this.modelMapperService = modelMapperService;
-		this.cityRepository = cityRepository;
-		this.brandRepository = brandRepository;
-		this.colorRepository = colorRepository;
+		this.cityService = cityService;
+		this.brandService = brandService;
+		this.colorService = colorService;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class CarManager implements CarService {
 		checkColorExists(updateCarRequest.getColorId());
 		checkCityExists(updateCarRequest.getCityId());
 		checkBrandExists(updateCarRequest.getBrandId());
-		Car car = this.carRepository.findById(updateCarRequest.getId()).get();
+		Car car = this.carRepository.findById(updateCarRequest.getId());
 		checkBrandNameFromUpdate(car);
 		checkCarNumberPlateFromUpdate(car);
 		car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
@@ -94,11 +94,16 @@ public class CarManager implements CarService {
 	public DataResult<GetCarResponse> getById(int id) {
 		
 		checkIfCarExists(id);
-		Car car = this.carRepository.findById(id).get();
+		Car car = this.carRepository.findById(id);
 		GetCarResponse response = this.modelMapperService.forResponse().map(car, GetCarResponse.class);
 		return new SuccessDataResult<GetCarResponse>(response);
 	}
-
+	
+	@Override
+	public Car getCarById(int id) {
+		checkIfCarExists(id);
+		return carRepository.findById(id);
+	}
 	
 	private void checkCarNumberPlate(String numberPlate) {
 		Car car = this.carRepository.findByNumberPlate(numberPlate);
@@ -108,14 +113,14 @@ public class CarManager implements CarService {
 	}
 	
 	private void checkCarNumberPlateFromUpdate(Car newCar) {
-		Car oldCar = this.carRepository.findById(newCar.getId()).get();
+		Car oldCar = this.carRepository.findById(newCar.getId());
 		if (oldCar.getNumberPlate() != (newCar.getNumberPlate())) {
 			checkCarNumberPlate(newCar.getNumberPlate());
 		}
 	}
 	
 	private void checkBrandNameFromUpdate(Car newCar) {
-		Car oldCar = this.carRepository.findById(newCar.getId()).get();
+		Car oldCar = this.carRepository.findById(newCar.getId());
 		if (oldCar.getBrand().getId() != newCar.getBrand().getId()) {
 			checkBrandCount(newCar.getBrand().getId());
 		}
@@ -129,32 +134,34 @@ public class CarManager implements CarService {
 	}
 	
 	private void checkIfCarExists(int carId) {
-		Car car = this.carRepository.findById(carId).get();
+		Car car = this.carRepository.findById(carId);
 		if (car == null) {
 			throw new BusinessException("THERE.IS.NOT.CAR");
 		}
 	}
 	
 	private void checkColorExists(int colorId) {
-		Color color = this.colorRepository.findById(colorId).get();
+		
+		Color color = this.colorService.getColorById(colorId);
 		if (color == null) {
 			throw new BusinessException("THERE.IS.NOT.COLOR");
 		}
 	}
 	
 	private void checkCityExists(int cityId) {
-		City city = this.cityRepository.findById(cityId).get();
+		City city = this.cityService.getCityById(cityId);
 		if (city == null) {
 			throw new BusinessException("THERE.IS.NOT.CITY");
 		}
 	}
 	
 	private void checkBrandExists(int brandId) {
-		Brand brand = this.brandRepository.findById(brandId).get();
+		Brand brand = this.brandService.getBrandById(brandId);
 		if (brand == null) {
 			throw new BusinessException("THERE.IS.NOT.BRAND");
 		}
 	}
+
 	
 
 }

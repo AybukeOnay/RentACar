@@ -9,6 +9,7 @@ import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsResponses;
 import com.kodlamaio.rentACar.business.responses.cars.GetCarResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
+import com.kodlamaio.rentACar.entities.concretes.Car;
 
 
 public interface CarService {
@@ -18,4 +19,5 @@ public interface CarService {
 	Result update(UpdateCarRequest updateCarRequest);
 	DataResult<List<GetAllCarsResponses>> getAll();
 	DataResult<GetCarResponse> getById(int id);
+	public Car getCarById(int id);
 }

@@ -2,6 +2,7 @@ package com.kodlamaio.rentACar.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ import com.kodlamaio.rentACar.core.utilities.results.Result;
 public class AddressesController {
 
 	private AddressService addressService;
-
+	@Autowired
 	public AddressesController(AddressService addressService) {
 		this.addressService = addressService;
 	}
@@ -53,13 +54,13 @@ public class AddressesController {
 		return this.addressService.getAll();
 	}
 	
-	@GetMapping("getAllBillAddress")
-	public DataResult<List<GetAllAddressesResponse>> getAllBillAddress(@RequestParam int userId, int addressType){
-		return this.addressService.getAllBillAddress(userId, addressType);
-	}
-	
-	@GetMapping("getAllContactAddress")
-	public DataResult<List<GetAllAddressesResponse>> getAllContactAddress(@RequestParam int userId, int addressType){
-		return this.addressService.getAllContactAddress(userId, addressType);
-	}
+//	@GetMapping("getAllBillAddress")
+//	public DataResult<List<GetAllAddressesResponse>> getAllBillAddress(@RequestParam int userId, int addressType){
+//		return this.addressService.getAllBillAddress(userId, addressType);
+//	}
+//	
+//	@GetMapping("getAllContactAddress")
+//	public DataResult<List<GetAllAddressesResponse>> getAllContactAddress(@RequestParam int userId, int addressType){
+//		return this.addressService.getAllContactAddress(userId, addressType);
+//	}
 }

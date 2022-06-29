@@ -56,6 +56,12 @@ public class BrandManager implements BrandService {
 	}
 
 	@Override
+	public Brand getBrandById(int id) {
+		checkIfBrandExistById(id);
+		return brandRepository.findById(id);
+	}
+
+	@Override
 	public DataResult<List<GetAllBrandsResponses>> getAll() {
 		List<Brand> brands = this.brandRepository.findAll();
 		List<GetAllBrandsResponses> response = brands.stream()
@@ -66,11 +72,11 @@ public class BrandManager implements BrandService {
 
 	@Override
 	public DataResult<GetBrandResponse> getById(int id) {
-		Brand brand = this.brandRepository.findById(id).get();
+		Brand brand = this.brandRepository.findById(id);
 		GetBrandResponse response = this.modelMapperService.forResponse().map(brand, GetBrandResponse.class);
 		return new SuccessDataResult<GetBrandResponse>(response);
 	}
-	
+
 	private void checkIfBrandExistName(String name) {
 
 		Brand currentBrand = this.brandRepository.findByName(name);
@@ -78,6 +84,13 @@ public class BrandManager implements BrandService {
 		if (currentBrand != null) {
 			throw new BusinessException("BRAND.EXIST");
 		}
+	}
+
+	private void checkIfBrandExistById(int id) {
+		
+		Brand brand = this.brandRepository.findById(id);
+		if (brand != null)
+			throw new BusinessException("BRAND.EXIST");
 	}
 
 }

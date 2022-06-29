@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import com.kodlamaio.rentACar.business.abstracts.CorporateCustomerService;
 import com.kodlamaio.rentACar.business.requests.corporates.CreateCorporateRequest;
@@ -21,6 +22,7 @@ import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CorporateCustomerRepository;
 import com.kodlamaio.rentACar.entities.concretes.CorporateCustomer;
 
+@Service
 public class CorporateCustomerManager implements CorporateCustomerService{
 
 	private CorporateCustomerRepository corporateCustomerRepository;
@@ -76,6 +78,13 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 		
 		return new SuccessDataResult<GetCorporateResponse>(response,"CORPORATE.LISTED");
 	}
+	
+	@Override
+	public CorporateCustomer getCorporateCustomerById(int id) {
+		checkCorporateExists(id);
+		return corporateCustomerRepository.findById(id).get();
+		
+	}
 
 	@Override
 	public DataResult<List<GetAllCorporatesResponse>> getAll(Integer pageNo, Integer pageSize) {
@@ -101,5 +110,7 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 			throw new BusinessException("CORPORATE.WAS.NOT.FOUND");
 		}
 	}
+
+
 
 }

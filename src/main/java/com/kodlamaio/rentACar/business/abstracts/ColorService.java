@@ -9,6 +9,7 @@ import com.kodlamaio.rentACar.business.responses.colors.GetAllColorsResponses;
 import com.kodlamaio.rentACar.business.responses.colors.GetColorResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
+import com.kodlamaio.rentACar.entities.concretes.Color;
 
 public interface ColorService {
 
@@ -17,4 +18,5 @@ public interface ColorService {
 	Result update(UpdateColorRequest updateColorRequest);
 	DataResult<List<GetAllColorsResponses>> getAll();
 	DataResult<GetColorResponse> getById(int id);
+	Color getColorById(int id);
 }

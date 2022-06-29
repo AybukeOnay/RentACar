@@ -39,7 +39,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 
 		checkUserNationalityFromRepository(createIndividualCustomerRequest.getNationality());
-		//checkIfUserExistsByNationalityFromMernis(createIndividualCustomerRequest);
+		checkIfUserExistsByNationalityFromMernis(createIndividualCustomerRequest);
 		checkUserEmail(createIndividualCustomerRequest.getEmail());
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest().map(createIndividualCustomerRequest,
 				IndividualCustomer.class);
@@ -89,13 +89,19 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		return new SuccessDataResult<GetIndividualCustomerResponse>(response);
 	}
 
-//	private void checkIfUserExistsByNationalityFromMernis(CreateIndividualCustomerRequest createIndividualRequest)
-//			throws NumberFormatException, RemoteException {
-//
-//		if (!userCheckService.checkIfRealPerson(createIndividualRequest)) {
-//			throw new BusinessException("USER.IS.NOT.EXISTS.MERNIS");
-//		}
-//	}
+	@Override
+	public IndividualCustomer getIndividualCustomerById(int id) {
+		checkIfUserExists(id);
+		return individualCustomerRepository.findById(id).get();
+	}
+
+	private void checkIfUserExistsByNationalityFromMernis(CreateIndividualCustomerRequest createIndividualRequest)
+			{
+
+		if (!userCheckService.checkIfRealPerson(createIndividualRequest)) {
+			throw new BusinessException("USER.IS.NOT.EXISTS.MERNIS");
+		}
+	}
 
 	private void checkUserNationalityFromRepository(String nationality) {
 
@@ -133,4 +139,5 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		}
 	}
 
+	
 }

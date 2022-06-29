@@ -56,6 +56,12 @@ public class AdditionalItemManager implements AdditionalItemService{
 		this.additionalItemRepository.save(additionalItem);
 		return new SuccessResult("ITEM.UPDATED");
 	}
+	
+	@Override
+	public AdditionalItem getAdditionalItemById(int id) {
+		checkIfAdditionalItemExistById(id);
+		return additionalItemRepository.findById(id);
+	}
 
 	@Override
 	public DataResult<List<GetAllAdditionalItemsResponses>> getAll() {
@@ -70,7 +76,7 @@ public class AdditionalItemManager implements AdditionalItemService{
 	@Override
 	public DataResult<GetAdditionalItemResponse> getById(int id) {
 		
-		AdditionalItem additionalItem = this.additionalItemRepository.findById(id).get();
+		AdditionalItem additionalItem = this.additionalItemRepository.findById(id);
 		GetAdditionalItemResponse response = this.modelMapperService.forResponse().map(additionalItem, GetAdditionalItemResponse.class);
 		return new SuccessDataResult<GetAdditionalItemResponse>(response);
 	}
@@ -83,5 +89,13 @@ public class AdditionalItemManager implements AdditionalItemService{
 			throw new BusinessException("ITEM.EXIST");
 		}
 	}
+	
+	private void checkIfAdditionalItemExistById(int id) {
+		AdditionalItem additionalServiceItem = additionalItemRepository.findById(id);
+		if (additionalServiceItem != null)
+			throw new BusinessException("ADDITIONAL.SERVICE.ITEM.EXIST");
+	}
+
+
 
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateInvoiceRequest {
 
+	private int id;
 	private int invoiceNumber;
 	private int rentalId;
 }

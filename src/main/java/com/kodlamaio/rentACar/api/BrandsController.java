@@ -2,6 +2,7 @@ package com.kodlamaio.rentACar.api;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ import com.kodlamaio.rentACar.core.utilities.results.Result;
 public class BrandsController {
 	
 	private BrandService brandService;
-
+	@Autowired
 	public BrandsController(BrandService brandService) {
 		this.brandService = brandService;
 	}

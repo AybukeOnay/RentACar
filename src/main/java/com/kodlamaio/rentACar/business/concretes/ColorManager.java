@@ -52,6 +52,12 @@ public class ColorManager implements ColorService {
 		this.colorRepository.save(color);
 		return new SuccessResult("COLOR.UPDATED");
 	}
+	
+	@Override
+	public Color getColorById(int id) {
+		checkIfColorExistById(id);
+		return colorRepository.findById(id);
+	}
 
 	@Override
 	public DataResult<List<GetAllColorsResponses>> getAll() {
@@ -64,7 +70,7 @@ public class ColorManager implements ColorService {
 
 	@Override
 	public DataResult<GetColorResponse> getById(int id) {
-		Color color = this.colorRepository.findById(id).get();
+		Color color = this.colorRepository.findById(id);
 		GetColorResponse response = this.modelMapperService.forResponse().map(color, GetColorResponse.class);
 		return new SuccessDataResult<GetColorResponse>(response);
 	}
@@ -75,6 +81,13 @@ public class ColorManager implements ColorService {
 		if (currentColor != null) {
 			throw new BusinessException("COLOR.EXIST");
 		}
+	}
+	
+	private void checkIfColorExistById(int id) {
+		
+		Color color = colorRepository.findById(id);
+		if (color != null)
+			throw new BusinessException("COLOR.EXIST");
 	}
 
 }

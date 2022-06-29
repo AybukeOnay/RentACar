@@ -26,8 +26,7 @@ public class Invoice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	
+		
 	@Column(name ="invoice_number")
 	private int invoiceNumber;
 	
@@ -36,6 +35,9 @@ public class Invoice {
 	
 	@Column(name = "total_price")
 	private double totalPrice;
+	
+	@Column(name="state")
+	private int state;
 	
 	@ManyToOne
 	@JoinColumn(name ="rental_id")

@@ -21,11 +21,11 @@ import com.kodlamaio.rentACar.dataAccess.abstracts.CityRepository;
 import com.kodlamaio.rentACar.entities.concretes.City;
 
 @Service
-public class CityManager implements CityService{
+public class CityManager implements CityService {
 
 	private CityRepository cityRepository;
 	private ModelMapperService modelMapperService;
-	
+
 	public CityManager(CityRepository cityRepository, ModelMapperService modelMapperService) {
 		this.cityRepository = cityRepository;
 		this.modelMapperService = modelMapperService;
@@ -33,7 +33,7 @@ public class CityManager implements CityService{
 
 	@Override
 	public Result add(CreateCityRequest createCityRequest) {
-		
+
 		checkIfCityExistName(createCityRequest.getName());
 		City city = this.modelMapperService.forRequest().map(createCityRequest, City.class);
 		this.cityRepository.save(city);
@@ -49,7 +49,7 @@ public class CityManager implements CityService{
 
 	@Override
 	public Result update(UpdateCityRequest updateCityRequest) {
-		
+
 		checkIfCityExistName(updateCityRequest.getName());
 		City city = this.modelMapperService.forRequest().map(updateCityRequest, City.class);
 		this.cityRepository.save(city);
@@ -57,8 +57,14 @@ public class CityManager implements CityService{
 	}
 
 	@Override
+	public City getCityById(int id) {
+		checkIfCityExistById(id);
+		return cityRepository.findById(id);
+	}
+
+	@Override
 	public DataResult<List<GetAllCitiesResponses>> getAll() {
-		
+
 		List<City> cities = this.cityRepository.findAll();
 		List<GetAllCitiesResponses> response = cities.stream()
 				.map(city -> this.modelMapperService.forResponse().map(city, GetAllCitiesResponses.class))
@@ -68,12 +74,12 @@ public class CityManager implements CityService{
 
 	@Override
 	public DataResult<GetCityResponse> getById(int id) {
-		
-		City city = this.cityRepository.findById(id).get();
+
+		City city = this.cityRepository.findById(id);
 		GetCityResponse response = this.modelMapperService.forResponse().map(city, GetCityResponse.class);
-		return new SuccessDataResult<GetCityResponse>(response);	
+		return new SuccessDataResult<GetCityResponse>(response);
 	}
-	
+
 	private void checkIfCityExistName(String name) {
 
 		City currentCity = this.cityRepository.findByName(name);
@@ -82,5 +88,12 @@ public class CityManager implements CityService{
 			throw new BusinessException("CITY.EXIST");
 		}
 	}
-	
+
+	private void checkIfCityExistById(int id) {
+		City city = cityRepository.findById(id);
+		if (city != null)
+
+			throw new BusinessException("CITY.EXIST");
+
+	}
 }

@@ -25,12 +25,12 @@ public class Customer extends User{
 	@Column(name ="customer_id", insertable = false, updatable = false)
 	private int customerId;
 	
-	@Column(name = "custormer_number")
+	@Column(name = "customer_number")
 	private int customerNumber;
 	
 	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;
 	
-//	@OneToMany(mappedBy = "customer")
-//	private List<Address> addresses;
+	@OneToMany(mappedBy = "customer")
+	private List<Address> addresses;
 }

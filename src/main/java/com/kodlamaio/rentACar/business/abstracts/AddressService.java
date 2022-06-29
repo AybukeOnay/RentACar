@@ -17,6 +17,6 @@ public interface AddressService {
 	Result update(UpdateAddressRequest updateAddressRequest);
 	DataResult<List<GetAllAddressesResponse>> getAll();
 	DataResult<GetAddressResponse> getById(int id);
-	DataResult<List<GetAllAddressesResponse>> getAllBillAddress(int userId, int addressType);
-	DataResult<List<GetAllAddressesResponse>> getAllContactAddress(int userId, int addressType);
+//	DataResult<List<GetAllAddressesResponse>> getAllBillAddress(int userId, int addressType);
+//	DataResult<List<GetAllAddressesResponse>> getAllContactAddress(int userId, int addressType);
 }

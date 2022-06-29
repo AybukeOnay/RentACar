@@ -8,5 +8,6 @@ import com.kodlamaio.rentACar.entities.concretes.OrderedAdditionalItem;
 
 public interface OrderedAdditionalItemRepository extends JpaRepository<OrderedAdditionalItem, Integer> {
 
-	List<OrderedAdditionalItem> getByRentalId(int id);
+	List<OrderedAdditionalItem> findByRentalId(int id);
+	OrderedAdditionalItem findById(int id);
 }

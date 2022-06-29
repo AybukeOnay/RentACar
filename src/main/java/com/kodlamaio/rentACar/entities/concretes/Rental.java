@@ -56,6 +56,11 @@ public class Rental {
 	@JoinColumn(name="return_city_id",referencedColumnName = "id")
 	private City returnCityId;
 	
+	@ManyToOne
+	@JoinColumn(name="customer_id")
+	private Customer customer;
 	
+	@OneToMany(mappedBy = "rental")
+	private List<OrderedAdditionalItem> orderedAdditionalItems;	
 	
 }

@@ -43,5 +43,9 @@ public class OrderedAdditionalItem {
 	@JoinColumn(name="additional_item_id")
 	private AdditionalItem additionalItem;
 	
+	@ManyToOne
+	@JoinColumn(name = "rental_id")
+	private Rental rental;
+	
 	
 }
